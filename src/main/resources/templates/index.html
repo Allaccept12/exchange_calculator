@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>환율 계산</title>
+<!--    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>환율 계산</h1>
+    </header>
+    <label>송금국가 : 미국(USD)</label>
+    <br>
+    <label>수취국가 :</label>
+    <label for="countries"></label>
+        <select name="receive" id="countries" onchange="changeCountry()">
+            <option selected value="KRW" hidden>한국(KRW)</option>
+            <option value="KRW">한국(KRW)</option>
+            <option value="JAP">일본(JAP)</option>
+            <option value="PHP">필리핀(PHP)</option>
+        </select>
+    <br>
+    <label>환율 : </label> <span id="rate"></span>
+    <br>
+    <label>송금액 : </label>  <input type="text" pattern="[0-9]+" id="send_money"> USD
+    <br>
+    <button style="margin-top: 5px" type="button" class="btn btn-primary btn-sm " onclick="sendMoney()" >환율 계산</button>
+<script>
+
+    $(document).ready(function() {
+        changeCountry();
+    })
+
+    function changeCountry() {
+
+    }
+
+    function sendMoney() {
+
+    }
+</script>
+</body>
+</html>
+
