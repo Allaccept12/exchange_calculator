@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>환율 계산</title>
-<!--    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <h1>환율 계산</h1>
-    </header>
-    <label>송금국가 : 미국(USD)</label>
-    <br>
-    <label>수취국가 :</label>
-    <label for="countries"></label>
-        <select name="receive" id="countries" onchange="changeCountry()">
-            <option selected value="KRW" hidden>한국(KRW)</option>
-            <option value="KRW">한국(KRW)</option>
-            <option value="JAP">일본(JAP)</option>
-            <option value="PHP">필리핀(PHP)</option>
-        </select>
-    <br>
-    <label>환율 : </label> <span id="rate"></span>
-    <br>
-    <label>송금액 : </label>  <input type="text" pattern="[0-9]+" id="send_money"> USD
-    <br>
-    <button style="margin-top: 5px" type="button" class="btn btn-primary btn-sm " onclick="sendMoney()" >환율 계산</button>
+<header>
+    <h1>환율 계산</h1>
+</header>
+<label>송금국가 : 미국(USD)</label>
+<br>
+<label>수취국가 :</label>
+<label for="countries"></label>
+<select name="receive" id="countries" onchange="changeCountry()">
+    <option selected value="KRW" hidden>한국(KRW)</option>
+    <option value="KRW">한국(KRW)</option>
+    <option value="JPY">일본(JPY)</option>
+    <option value="PHP">필리핀(PHP)</option>
+</select>
+<br>
+<label>환율 : </label> <span id="rate"></span>
+<br>
+<label>송금액 : </label> <input type="text" pattern="[0-9]+" id="send_money"> USD
+<br>
+<button style="margin-top: 5px" type="button" class="btn btn-primary btn-sm " onclick="sendMoney()" >Submit</button>
+<div style="margin-top: 5px">
+    <label>수취금액 : </label> <span id="result"></span>
+</div>
+
 <script>
 
     $(document).ready(function() {
@@ -34,13 +37,53 @@
     })
 
     function changeCountry() {
+        let country = $("#countries").val();
 
+        $.ajax({
+            type : "GET",
+            url : "/api/exchange?exchange_country=" + country,
+            success : function(res){
+                $("#rate").text(res["convert_rate"] +" "+ country + "/USD");
+            },
+            error : function(){
+                alert("통신 실패. 다시 시도 해주세요.")
+            }
+        });
     }
 
     function sendMoney() {
+        let sendMoney = $("#send_money").val().replace(/[^0-9]/g, "");
+        let receiveCountry = $("#countries").val();
 
+        if (sendMoney < 0 || sendMoney > 10000 || sendMoney === "") {
+            alert("송금액이 바르지 않습니다. 0 ~ 10000 사이의 숫자를 입력해주세요.");
+            return;
+        }
+        if (receiveCountry === "") {
+            alert("수취 국가를 다시 선택해주세요.");
+            return;
+        }
+
+        let requestData = {
+            "country": receiveCountry,
+            "send_money": sendMoney
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/api/receivable",
+            headers: {'Content-Type': 'application/json'},
+            data: JSON.stringify(requestData),
+            success: function (res) {
+                $("#result").text(res["convert_rate"] +" "+ receiveCountry + " " + "입니다");
+
+            },
+            error: function () {
+                alert("통신 실패. 다시 시도 해주세요.")
+            },
+
+        });
     }
 </script>
 </body>
 </html>
-
