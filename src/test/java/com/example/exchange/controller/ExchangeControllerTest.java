@@ -53,8 +53,8 @@ class ExchangeControllerTest {
         );
         //then
         mockMvc.perform(MockMvcRequestBuilders.post(uri)
-                        .content(body) //HTTP Body에 데이터를 담는다
-                        .contentType(MediaType.APPLICATION_JSON) //보내는 데이터의 타입을 명시
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON) 
                 )
                 .andExpect(status().isOk());
 

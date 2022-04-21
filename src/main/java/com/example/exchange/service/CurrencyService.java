@@ -53,7 +53,7 @@ public class CurrencyService {
         return forObject;
     }
 
-    //무료 버전의 API 사용중이므로 텀을 주고 새 값을 가져와야함. 텀이 너무 짧으면(약 2초이후) API 호출안함
+    //무료 버전의 API 사용중이므로 텀을 주고 새 값을 가져와야함. 텀은 무료버전 60분
     private boolean timeCheck(){
         if(forObject == null){
             return true;
