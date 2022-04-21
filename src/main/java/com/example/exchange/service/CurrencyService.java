@@ -60,7 +60,7 @@ public class CurrencyService {
         }
         Timestamp requestTimeStamp = Timestamp.valueOf(requestTime);
         Timestamp currentTimeStamp = Timestamp.valueOf(LocalDateTime.now());
-        return (currentTimeStamp.getTime() - requestTimeStamp.getTime()) / 1000 > 10;
+        return (currentTimeStamp.getTime() - requestTimeStamp.getTime()) / 3600000 > 0;
 
     }
 
