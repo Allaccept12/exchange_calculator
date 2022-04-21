@@ -54,7 +54,7 @@ class ExchangeControllerTest {
         //then
         mockMvc.perform(MockMvcRequestBuilders.post(uri)
                         .content(body)
-                        .contentType(MediaType.APPLICATION_JSON) 
+                        .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
 
